@@ -21,29 +21,27 @@ A simple component for making elements draggable.
 - [Demo](http://react-grid-layout.github.io/react-draggable/example/)
 - [Changelog](CHANGELOG.md)
 
+| Version | Compatibility     |
+| ------- | ----------------- |
+| 4.x     | React 16.3+       |
+| 3.x     | React 15-16       |
+| 2.x     | React 0.14 - 15   |
+| 1.x     | React 0.13 - 0.14 |
+| 0.x     | React 0.10 - 0.13 |
 
-|Version     | Compatibility|
-|------------|--------------|
-|4.x         | React 16.3+  |
-|3.x         | React 15-16  |
-|2.x         | React 0.14 - 15   |
-|1.x         | React 0.13 - 0.14 |
-|0.x         | React 0.10 - 0.13 |
-
-------
+---
 
 #### Technical Documentation
 
-- [Installing](#installing)
-- [Exports](#exports)
-- [Draggable](#draggable)
-- [Draggable Usage](#draggable-usage)
-- [Draggable API](#draggable-api)
-- [Controlled vs. Uncontrolled](#controlled-vs-uncontrolled)
-- [DraggableCore](#draggablecore)
-- [DraggableCore API](#draggablecore-api)
-
-
+1. [`<Draggable>`](#draggable)
+   1. [Draggable Usage](#draggable-usage)
+   2. [Draggable API](#draggable-api)
+2. [Controlled vs. Uncontrolled](#controlled-vs-uncontrolled)
+3. [`<DraggableCore>`](#draggablecore)
+   1. [DraggableCore API](#draggablecore-api)
+   2. [Contributing](#contributing)
+   3. [Release checklist](#release-checklist)
+   4. [License](#license)
 
 ### Installing
 
@@ -65,12 +63,12 @@ Here's how to use it:
 
 ```js
 // ES6
-import Draggable from 'react-draggable'; // The default
-import {DraggableCore} from 'react-draggable'; // <DraggableCore>
-import Draggable, {DraggableCore} from 'react-draggable'; // Both at the same time
+import Draggable from "react-draggable"; // The default
+import { DraggableCore } from "react-draggable"; // <DraggableCore>
+import Draggable, { DraggableCore } from "react-draggable"; // Both at the same time
 
 // CommonJS
-let Draggable = require('react-draggable');
+let Draggable = require("react-draggable");
 let DraggableCore = Draggable.DraggableCore;
 ```
 
@@ -91,15 +89,14 @@ View the [Demo](http://react-grid-layout.github.io/react-draggable/example/) and
 [source](/example/example.js) for more.
 
 ```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Draggable from 'react-draggable';
+import React from "react";
+import ReactDOM from "react-dom";
+import Draggable from "react-draggable";
 
 class App extends React.Component {
-
   eventLogger = (e: MouseEvent, data: Object) => {
-    console.log('Event: ', e);
-    console.log('Data: ', data);
+    console.log("Event: ", e);
+    console.log("Data: ", data);
   };
 
   render() {
@@ -107,13 +104,14 @@ class App extends React.Component {
       <Draggable
         axis="x"
         handle=".handle"
-        defaultPosition={{x: 0, y: 0}}
+        defaultPosition={{ x: 0, y: 0 }}
         position={null}
         grid={[25, 25]}
         scale={1}
         onStart={this.handleStart}
         onDrag={this.handleDrag}
-        onStop={this.handleStop}>
+        onStop={this.handleStop}
+      >
         <div>
           <div className="handle">Drag from here</div>
           <div>This readme is really dragging on...</div>
@@ -123,7 +121,7 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App/>, document.body);
+ReactDOM.render(<App />, document.body);
 ```
 
 ### Draggable API
@@ -134,9 +132,10 @@ The `<Draggable/>` component transparently adds draggability to its children.
 
 For the `<Draggable/>` component to correctly attach itself to its child, the child element must provide support
 for the following props:
+
 - `style` is used to give the transform css to the child.
 - `className` is used to apply the proper classes to the object being dragged.
-- `onMouseDown`, `onMouseUp`, `onTouchStart`, and `onTouchEnd`  are used to keep track of dragging state.
+- `onMouseDown`, `onMouseUp`, `onTouchStart`, and `onTouchEnd` are used to keep track of dragging state.
 
 React.DOM elements support the above properties by default, so you may use those elements as children without
 any changes. If you wish to use a React component you created, you'll need to be sure to
@@ -181,6 +180,12 @@ axis: string,
 //   These indicate how far in each direction the draggable
 //   can be moved.
 bounds: {left?: number, top?: number, right?: number, bottom?: number} | string,
+
+
+// Observable value that in the case of change, will recalculate the position
+// of the Draggable element, (useful for keeping the element in bounds after
+// resizing)
+triggerBounds: any,
 
 // Specifies a selector to be used to prevent drag initialization. The string is passed to
 // Element.matches, so it's possible to use multiple selectors like `.first, .second`.
@@ -246,7 +251,7 @@ onStop: DraggableEventHandler,
 // pointing to the actual child DOM node and not a custom component.
 //
 // For rich components, you need to both forward the ref *and props* to the underlying DOM
-// element. Props must be forwarded so that DOM event handlers can be attached. 
+// element. Props must be forwarded so that DOM event handlers can be attached.
 // For example:
 //
 //   const Component1 = React.forwardRef(function (props, ref) {
@@ -281,10 +286,8 @@ scale: number
 }
 ```
 
-
 Note that sending `className`, `style`, or `transform` as properties will error - set them on the child element
 directly.
-
 
 ## Controlled vs. Uncontrolled
 
@@ -344,7 +347,7 @@ to set actual positions on `<DraggableCore>`.
 
 Drag callbacks (`onStart`, `onDrag`, `onStop`) are called with the [same arguments as `<Draggable>`](#draggable-api).
 
-----
+---
 
 ### Contributing
 
