@@ -90,6 +90,7 @@
   ],
   "dependencies": {
     "clsx": "^1.1.1",
+    "memoize-one": "^6.0.0",
     "prop-types": "^15.8.1"
   },
   "peerDependencies": {

@@ -31,6 +31,8 @@ var _DraggableCore = _interopRequireDefault(require("./DraggableCore"));
 
 var _log = _interopRequireDefault(require("./utils/log"));
 
+var _memoizeOne = _interopRequireDefault(require("memoize-one"));
+
 var _excluded = ["axis", "bounds", "children", "defaultPosition", "defaultClassName", "defaultClassNameDragging", "defaultClassNameDragged", "position", "positionOffset", "scale"];
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -91,6 +93,21 @@ var Draggable = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(Draggable);
 
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.triggerBounds !== prevProps.triggerBounds) {
+  //     const _getBoundPosition = getBoundPosition(
+  //         this,
+  //         this.state.x,
+  //         this.state.y
+  //       ),
+  //       newStateX = _getBoundPosition[0],
+  //       newStateY = _getBoundPosition[1];
+  //     this.setState({ x: newStateX, y: newStateY });
+  //   }
+  //   log("Draggable: componentDidUpdate %j", {
+  //     prevProps,
+  //   });
+  // }
   function Draggable(props
   /*: DraggableProps*/
   ) {
@@ -99,6 +116,19 @@ var Draggable = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, Draggable);
 
     _this = _super.call(this, props);
+
+    _defineProperty(_assertThisInitialized(_this), "filter", (0, _memoizeOne.default)(function (triggerBounds) {
+      var _getBoundPosition = (0, _positionFns.getBoundPosition)(_assertThisInitialized(_this), _this.state.x, _this.state.y),
+          newStateX = _getBoundPosition[0],
+          newStateY = _getBoundPosition[1];
+
+      _this.setState({
+        x: newStateX,
+        y: newStateY
+      });
+
+      (0, _log.default)("memoize");
+    }));
 
     _defineProperty(_assertThisInitialized(_this), "onDragStart", function (e, coreData) {
       (0, _log.default)("Draggable: onDragStart: %j", coreData); // Short-circuit if user's callback killed it.
@@ -240,20 +270,6 @@ var Draggable = /*#__PURE__*/function (_React$Component) {
       var _this$props$nodeRef$c, _this$props, _this$props$nodeRef;
 
       return (_this$props$nodeRef$c = (_this$props = this.props) === null || _this$props === void 0 ? void 0 : (_this$props$nodeRef = _this$props.nodeRef) === null || _this$props$nodeRef === void 0 ? void 0 : _this$props$nodeRef.current) !== null && _this$props$nodeRef$c !== void 0 ? _this$props$nodeRef$c : _reactDom.default.findDOMNode(this);
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      if (this.props.triggerBounds !== prevProps.triggerBounds) {
-        var _getBoundPosition = (0, _positionFns.getBoundPosition)(this, this.state.x, this.state.y),
-            newStateX = _getBoundPosition[0],
-            newStateY = _getBoundPosition[1];
-
-        this.setState({
-          x: newStateX,
-          y: newStateY
-        });
-      }
     }
   }, {
     key: "render",
