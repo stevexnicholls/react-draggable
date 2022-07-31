@@ -210,17 +210,6 @@ var Draggable = /*#__PURE__*/function (_React$Component) {
       console.warn("A `position` was applied to this <Draggable>, without drag handlers. This will make this " + "component effectively undraggable. Please attach `onDrag` or `onStop` handlers so you can adjust the " + "`position` of this element.");
     }
 
-    if (_this.props.triggerBounds != nextProps.triggerBounds) {
-      var _getBoundPosition = (0, _positionFns.getBoundPosition)(_assertThisInitialized(_this), _this.state.x, _this.state.y),
-          newStateX = _getBoundPosition[0],
-          newStateY = _getBoundPosition[1];
-
-      _this.setState({
-        x: newStateX,
-        y: newStateY
-      });
-    }
-
     return _this;
   }
 
@@ -251,6 +240,20 @@ var Draggable = /*#__PURE__*/function (_React$Component) {
       var _this$props$nodeRef$c, _this$props, _this$props$nodeRef;
 
       return (_this$props$nodeRef$c = (_this$props = this.props) === null || _this$props === void 0 ? void 0 : (_this$props$nodeRef = _this$props.nodeRef) === null || _this$props$nodeRef === void 0 ? void 0 : _this$props$nodeRef.current) !== null && _this$props$nodeRef$c !== void 0 ? _this$props$nodeRef$c : _reactDom.default.findDOMNode(this);
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      if (this.props.triggerBounds !== prevProps.triggerBounds) {
+        var _getBoundPosition = (0, _positionFns.getBoundPosition)(this, this.state.x, this.state.y),
+            newStateX = _getBoundPosition[0],
+            newStateY = _getBoundPosition[1];
+
+        this.setState({
+          x: newStateX,
+          y: newStateY
+        });
+      }
     }
   }, {
     key: "render",
